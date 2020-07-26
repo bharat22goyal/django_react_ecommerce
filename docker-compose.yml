@@ -1,0 +1,30 @@
+version: '3'
+    
+services:
+    backend:
+        build: 
+            context: ./django_backend
+        command: bash -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
+        #command: python manage.py runserver 0.0.0.0:8000
+        # volumes:
+        #     - .:/code
+        ports:
+            - "8000:8000"
+    #   depends_on:
+    #     - db
+    # frontend:
+    #     build: 
+    #         context: ./react_frontend
+    #     ports:
+    #         - "80:80"
+    #     depends_on: 
+    #         - backend
+    frontend:
+        build: 
+            context: ./react_frontend
+        command: npm start
+        ports:
+            - "3000:3000"
+        depends_on: 
+            - backend
+        tty: true
